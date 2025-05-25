@@ -574,3 +574,9 @@ window.flashcardManager = {
   getFlashcardSet,
   getNextId: () => nextAvailableId
 };
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/Revizrlearn/service-worker.js');
+  });
+}
