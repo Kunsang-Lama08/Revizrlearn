@@ -714,3 +714,9 @@ document.addEventListener('DOMContentLoaded', () => {
   // Initialize the editor
   flashcardsEditor.init();
 });
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/Revizrlearn/service-worker.js');
+  });
+}
