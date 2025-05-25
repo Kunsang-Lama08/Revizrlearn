@@ -63,3 +63,8 @@ setInterval(() => {
   showTestimonial(currentTestimonial);
 }, 7000);
 
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/Revizrlearn/service-worker.js');
+  });
+}
