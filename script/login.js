@@ -435,3 +435,9 @@ document.querySelectorAll('form').forEach(form => {
 console.log('Login script loaded');
 console.log('Current location:', window.location.href);
 console.log('Detected server URL:', getServerUrl());
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/Revizrlearn/service-worker.js');
+  });
+}
