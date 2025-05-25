@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Flashcards</title>
+  <link rel="manifest" href="/manifest.json" />
+  <!-- Stylesheets for dashboard layout, flashcard specific styles, and icons -->
+  <link rel="stylesheet" href="css/dashboard.css" />
+  <link rel="stylesheet" href="css/flashcards.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+  <!-- Collapsible navigation sidebar -->
+  <div class="sidebar" id="sidebar">
+    <!-- Sidebar header with toggle button and app logo -->
+    <div class="sidebar-header">
+      <button class="toggle-btn" onclick="toggleSidebar()">
+        <i class="fas fa-bars"></i>
+      </button>
+      <span class="title"><strong>Revizr</strong>learn</span>
+    </div>
+
+    <!-- Navigation menu items -->
+    <a href="dashboard.html" class="nav-item">
+      <i class="fas fa-house"></i>
+      <span>Home</span>
+    </a>
+    <a href="flashcards.html" class="nav-item active">
+      <i class="fas fa-layer-group"></i>
+      <span>Flashcards</span>
+    </a>
+    <a href="study_mode.html" class="nav-item">
+      <i class="fas fa-brain"></i>
+      <span>Study Mode</span>
+    </a>
+    <a href="flashcards_editor.html" class="nav-item">
+      <i class="fas fa-plus-circle"></i>
+      <span>Create Set</span>
+    </a>
+  </div>
+
+  <!-- Main content area -->
+  <div class="main-content">
+    <!-- Page header with title and action buttons -->
+    <div class="content-header">
+      <h1>Flashcards</h1>
+      <div class="actions">
+        <!-- Search functionality for finding flashcard sets -->
+        <div class="search-container">
+          <input type="text" id="search-input" placeholder="Search flashcards...">
+          <button id="search-btn"><i class="fas fa-search"></i></button>
+        </div>
+        <!-- Quick access button to create new flashcard sets -->
+        <a href="flashcards_editor.html" class="create-btn">
+          <i class="fas fa-plus"></i> Create New Set
+        </a>
+      </div>
+    </div>
+
+    <!-- Category filtering section -->
+    <div class="filter-section">
+      <div class="filter-container">
+        <span>Filter by category:</span>
+        <div class="filter-buttons" id="category-filters">
+          <button class="filter-btn active" data-category="all">All</button>
+          <!-- Additional category filter buttons will be populated by JavaScript -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Main flashcard sets display area -->
+    <div class="flashcard-sets">
+      <div class="flashcard-grid" id="flashcard-grid">
+        <!-- Flashcard set cards will be dynamically populated here -->
+      </div>
+    </div>
+
+    <!-- Individual flashcard study interface (hidden by default) -->
+    <div class="flashcard-study-container" id="flashcard-study-container">
+      <!-- Study mode header with navigation and controls -->
+      <div class="study-header">
+        <button id="back-to-sets" class="back-btn"><i class="fas fa-arrow-left"></i> Back to Sets</button>
+        <h2 id="set-title">Flashcard Set Title</h2>
+        <div class="study-controls">
+          <span id="card-counter">Card 1 of 10</span>
+          <button id="shuffle-btn" class="control-btn"><i class="fas fa-random"></i></button>
+        </div>
+      </div>
+
+      <!-- Flashcard display area with flip functionality -->
+      <div class="flashcard-wrapper">
+        <div class="flashcard" id="current-card">
+          <div class="card-front">
+            <div class="card-content"></div>
+          </div>
+          <div class="card-back">
+            <div class="card-content"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Navigation controls for moving between cards -->
+      <div class="navigation-buttons">
+        <button id="prev-card" class="nav-btn"><i class="fas fa-chevron-left"></i> Previous</button>
+        <button id="flip-card" class="flip-btn">Flip Card</button>
+        <button id="next-card" class="nav-btn">Next <i class="fas fa-chevron-right"></i></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Delete confirmation modal -->
+  <div id="delete-modal" class="modal">
+    <div class="modal-content">
+      <!-- Modal header -->
+      <div class="modal-header">
+        <h3>Confirm Deletion</h3>
+      </div>
+      
+      <!-- Modal body with confirmation message -->
+      <div class="modal-body">
+        <p>Are you sure you want to delete "<span id="delete-set-name"></span>"?</p>
+        <p>This action cannot be undone.</p>
+      </div>
+      
+      <!-- Modal action buttons -->
+      <div class="modal-footer">
+        <button id="cancel-delete" class="modal-btn cancel-btn">Cancel</button>
+        <button id="confirm-delete" class="modal-btn delete-btn">Delete</button>
+      </div>
+      
+      <!-- Loading state during deletion -->
+      <div id="delete-loading" class="modal-loading">
+        <div class="spinner"></div>
+        <p>Deleting "<span id="deleting-set-name"></span>"...</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- JavaScript for flashcard functionality -->
+  <script src="script/flashcards.js"></script>
+</body>
+</html>

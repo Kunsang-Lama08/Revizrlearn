@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Home</title>
+  <link rel="manifest" href="/manifest.json" />
+  <!-- External CSS and Font Awesome icons -->
+  <link rel="stylesheet" href="css/dashboard.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+    
+  <!-- Left Navigation Sidebar -->
+  <div class="sidebar" id="sidebar">
+    <!-- Sidebar header with toggle button and app branding -->
+    <div class="sidebar-header">
+        <button class="toggle-btn" onclick="toggleSidebar()">
+            <i class="fas fa-bars"></i>
+        </button>
+        <span class="title"><strong>Revizr</strong>learn</span>
+    </div>
+
+    <!-- Navigation menu items -->
+    <a href="dashboard.html" class="nav-item active">
+      <i class="fas fa-house"></i>
+      <span>Home</span>
+    </a>
+    <a href="flashcards.html" class="nav-item">
+      <i class="fas fa-layer-group"></i>
+      <span>Flashcards</span>
+    </a>
+    <a href="study_mode.html" class="nav-item">
+      <i class="fas fa-brain"></i>
+      <span>Study Mode</span>
+    </a>
+    <a href="flashcards_editor.html" class="nav-item">
+      <i class="fas fa-plus-circle"></i>
+      <span>Create Set</span>
+    </a>
+  </div>
+
+  <!-- Main Content Area -->
+  <div class="main-content">
+    <!-- Top Header Section -->
+    <div class="header">
+      <!-- Welcome greeting and date display -->
+      <div class="greeting">
+        <h1>Welcome back, <span id="username">Student</span>!</h1>
+        <p class="date" id="current-date">Loading date...</p>
+      </div>
+      
+      <!-- User menu with notifications and profile dropdown -->
+      <div class="user-menu">
+        <!-- Notification bell with badge -->
+        <span class="notification-bell" id="notification-bell">
+          <i class="fas fa-bell"></i>
+          <span class="badge" id="notification-count">0</span>
+        </span>
+        
+        <!-- User profile dropdown -->
+        <div class="user-profile" id="profile-dropdown-toggle">
+          <span class="username" id="user-email">student@example.com</span>
+          <i class="fas fa-chevron-down"></i>
+          
+          <div class="profile-dropdown" id="profile-dropdown">
+            <a href="#" class="dropdown-item" id="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Content Grid Layout -->
+    <div class="content-grid">
+      <!-- Recent Flashcard Sets Section -->
+      <div class="content-card recent-sets">
+        <div class="card-header">
+          <h2>Recent Flashcard Sets</h2>
+          <a href="flashcards.html" class="view-all">View All <i class="fas fa-arrow-right"></i></a>
+        </div>
+        <div class="set-list" id="flashcard-sets">
+          <!-- Flashcard sets will be loaded here dynamically -->
+          <div class="loading-indicator">
+            <i class="fas fa-spinner fa-spin"></i>
+            <p>Loading your flashcard sets...</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Notes Management Section -->
+      <div class="content-card notes-section">
+        <!-- Notes section header with create button -->
+        <div class="card-header">
+          <h2>My Notes</h2>
+          <div class="notes-actions">
+            <button id="create-note-btn" class="action-btn">
+              <i class="fas fa-plus"></i> New Note
+            </button>
+          </div>
+        </div>
+        
+        <!-- Notes container with sidebar and editor -->
+        <div class="notes-container">
+          <!-- Left sidebar for notes list and search -->
+          <div class="notes-sidebar">
+            <!-- Search functionality for notes -->
+            <div class="notes-search">
+              <input type="text" id="notes-search" placeholder="Search notes...">
+              <i class="fas fa-search"></i>
+            </div>
+            
+            <!-- List of existing notes -->
+            <div class="notes-list" id="notes-list">
+              <!-- Notes list will be loaded here dynamically -->
+              <div class="empty-notes-message">
+                <i class="fas fa-sticky-note"></i>
+                <p>No notes yet. Create your first note!</p>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Right side notes editor area -->
+          <div class="notes-editor-container" id="notes-editor-container">
+            <!-- Default placeholder when no note is selected -->
+            <div class="notes-editor-placeholder">
+              <i class="fas fa-edit"></i>
+              <p>Select a note to edit or create a new one</p>
+            </div>
+            
+            <!-- Rich text notes editor (hidden by default) -->
+            <div class="notes-editor" id="notes-editor" style="display: none;">
+              <!-- Formatting toolbar -->
+              <div class="notes-toolbar">
+                <!-- Text formatting buttons -->
+                <button class="format-btn" data-format="bold" title="Bold">
+                  <i class="fas fa-bold"></i>
+                </button>
+                <button class="format-btn" data-format="italic" title="Italic">
+                  <i class="fas fa-italic"></i>
+                </button>
+                <button class="format-btn" data-format="underline" title="Underline">
+                  <i class="fas fa-underline"></i>
+                </button>
+                
+                <!-- List formatting buttons -->
+                <button class="format-btn" data-format="insertUnorderedList" title="Bullet List">
+                  <i class="fas fa-list-ul"></i>
+                </button>
+                <button class="format-btn" data-format="insertOrderedList" title="Numbered List">
+                  <i class="fas fa-list-ol"></i>
+                </button>
+                
+                <div class="toolbar-divider"></div>
+                
+                <!-- Color picker for note background -->
+                <div class="color-picker-container">
+                  <button class="color-picker-btn" id="note-color-btn" title="Note Color">
+                    <i class="fas fa-palette"></i>
+                  </button>
+                  <div class="color-picker" id="color-picker">
+                    <div class="color-option" data-color="#ffffff" style="background-color: #ffffff;"></div>
+                    <div class="color-option" data-color="#f8d7da" style="background-color: #f8d7da;"></div>
+                    <div class="color-option" data-color="#d1ecf1" style="background-color: #d1ecf1;"></div>
+                    <div class="color-option" data-color="#d4edda" style="background-color: #d4edda;"></div>
+                    <div class="color-option" data-color="#fff3cd" style="background-color: #fff3cd;"></div>
+                    <div class="color-option" data-color="#e6e6fa" style="background-color: #e6e6fa;"></div>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Note title input -->
+              <input type="text" id="note-title" placeholder="Note Title" class="note-title">
+              
+              <!-- Rich text content editor -->
+              <div id="note-content" class="note-content" contenteditable="true" placeholder="Start typing your note here..."></div>
+              
+              <!-- Note action buttons (save/delete) -->
+              <div class="notes-actions-bottom">
+                <button id="save-note-btn" class="action-btn">
+                  <i class="fas fa-save"></i> Save
+                </button>
+                <button id="delete-note-btn" class="action-btn danger">
+                  <i class="fas fa-trash"></i> Delete
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Dialogs -->
+  
+  <!-- Notifications Modal -->
+  <div class="modal" id="notifications-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Notifications</h2>
+        <button class="close-btn" id="close-notifications">&times;</button>
+      </div>
+      <div class="modal-body" id="notifications-list">
+        <!-- Notifications will be loaded here dynamically -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Delete Confirmation Modal -->
+  <div class="modal" id="confirm-delete-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Delete Note</h2>
+        <button class="close-btn" id="close-confirm-delete">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure you want to delete this note? This action cannot be undone.</p>
+        <div class="modal-actions">
+          <button id="confirm-delete-btn" class="action-btn danger">Delete</button>
+          <button id="cancel-delete-btn" class="action-btn secondary">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification System -->
+  <div class="toast" id="toast">
+    <div class="toast-content">
+      <i id="toast-icon" class="fas fa-info-circle"></i>
+      <div class="toast-message" id="toast-message"></div>
+    </div>
+    <div class="toast-progress" id="toast-progress"></div>
+  </div>
+
+  <!-- JavaScript -->
+  <script src="script/dashboard.js"></script>
+</body>
+</html>

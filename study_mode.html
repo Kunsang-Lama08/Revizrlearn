@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- Document head with meta tags and external resources -->
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Study Mode</title>
+  <link rel="manifest" href="/manifest.json" />
+  <!-- External stylesheets for dashboard, study mode, and Font Awesome icons -->
+  <link rel="stylesheet" href="css/dashboard.css" />
+  <link rel="stylesheet" href="css/study_mode.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+  <!-- Left sidebar navigation -->
+  <div class="sidebar" id="sidebar">
+    <!-- Sidebar header with toggle button and app branding -->
+    <div class="sidebar-header">
+      <button class="toggle-btn" onclick="toggleSidebar()">
+        <i class="fas fa-bars"></i>
+      </button>
+      <span class="title"><strong>Revizr</strong>learn</span>
+    </div>
+
+    <!-- Navigation menu items -->
+    <a href="dashboard.html" class="nav-item">
+      <i class="fas fa-house"></i>
+      <span>Home</span>
+    </a>
+    <a href="flashcards.html" class="nav-item">
+      <i class="fas fa-layer-group"></i>
+      <span>Flashcards</span>
+    </a>
+    <a href="study_mode.html" class="nav-item active">
+      <i class="fas fa-brain"></i>
+      <span>Study Mode</span>
+    </a>
+    <a href="flashcards_editor.html" class="nav-item">
+      <i class="fas fa-plus-circle"></i>
+      <span>Create Set</span>
+    </a>
+  </div>
+
+  <!-- Main content area -->
+  <div class="main-content">
+    <!-- Page header with title and deck selection -->
+    <div class="header">
+      <h1>Study Mode</h1>
+      <div class="deck-selector">
+        <select id="deckSelect">
+          <option value="">Select a flashcard deck</option>
+          <!-- Dynamically populated by JavaScript -->
+        </select>
+      </div>
+    </div>
+
+    <!-- Study mode selection options -->
+    <div class="study-options" id="studyOptions">
+      <!-- Flashcard Review Mode -->
+      <div class="study-mode-card">
+        <div class="mode-icon"><i class="fas fa-sync-alt"></i></div>
+        <h3>Flashcard Review</h3>
+        <p>Flip through your cards in a standard flashcard review format.</p>
+        <button class="study-btn" data-mode="flashcard">Start</button>
+      </div>
+      
+      <!-- Multiple Choice Mode -->
+      <div class="study-mode-card">
+        <div class="mode-icon"><i class="fas fa-check-circle"></i></div>
+        <h3>Multiple Choice</h3>
+        <p>Test your knowledge with multiple choice questions generated from your cards.</p>
+        <button class="study-btn" data-mode="multiple">Start</button>
+      </div>
+      
+      <!-- Type Answer Mode -->
+      <div class="study-mode-card">
+        <div class="mode-icon"><i class="fas fa-keyboard"></i></div>
+        <h3>Type Answer</h3>
+        <p>Type in answers to reinforce your learning through active recall.</p>
+        <button class="study-btn" data-mode="typing">Start</button>
+      </div>
+    </div>
+
+    <!-- Active study session interface (hidden by default) -->
+    <div class="study-session" id="studySession" style="display: none;">
+      <!-- Study session controls and progress tracking -->
+      <div class="study-controls">
+        <button id="backToOptions"><i class="fas fa-arrow-left"></i> Back to Options</button>
+        <div class="progress-container">
+          <div class="progress-bar" id="progressBar"></div>
+        </div>
+        <div class="card-counter">Card <span id="currentCard">1</span> of <span id="totalCards">0</span></div>
+      </div>
+
+      <!-- Main flashcard display area -->
+      <div class="flashcard-container">
+        <!-- Standard flashcard with front/back sides -->
+        <div class="flashcard" id="flashcard">
+          <div class="flashcard-inner">
+            <div class="flashcard-front">
+              <div class="card-content" id="cardFront"></div>
+            </div>
+            <div class="flashcard-back">
+              <div class="card-content" id="cardBack"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Multiple choice question interface (hidden by default) -->
+        <div class="multiple-choice-container" id="multipleChoiceContainer" style="display: none;">
+          <div id="multipleChoiceOptions"></div>
+        </div>
+
+        <!-- Type answer input interface (hidden by default) -->
+        <div class="type-answer-container" id="typeAnswerContainer" style="display: none;">
+          <input type="text" id="userAnswer" placeholder="Type your answer...">
+          <button id="checkAnswer">Check</button>
+          <div id="answerFeedback"></div>
+        </div>
+      </div>
+
+      <!-- Card navigation controls -->
+      <div class="card-navigation">
+        <button id="prevCard" class="nav-btn"><i class="fas fa-chevron-left"></i> Previous</button>
+        <button id="flipCard" class="flip-btn">Flip Card</button>
+        <button id="nextCard" class="nav-btn">Next <i class="fas fa-chevron-right"></i></button>
+      </div>
+
+      <!-- Difficulty rating buttons (hidden by default) -->
+      <div class="difficulty-buttons" id="difficultyButtons" style="display: none;">
+      </div>
+    </div>
+
+    <!-- Study session completion results (hidden by default) -->
+    <div class="study-session-results" id="studySessionResults" style="display: none;">
+      <h2>Study Session Complete!</h2>
+      <!-- Performance statistics display -->
+      <div class="results-stats">
+        <div class="stat-box">
+          <h3>Total Cards</h3>
+          <div class="stat-value" id="statTotalCards">0</div>
+        </div>
+        <div class="stat-box">
+          <h3>Correct</h3>
+          <div class="stat-value" id="statCorrect">0</div>
+        </div>
+        <div class="stat-box">
+          <h3>Accuracy</h3>
+          <div class="stat-value" id="statAccuracy">0%</div>
+        </div>
+        <div class="stat-box">
+          <h3>Study Time</h3>
+          <div class="stat-value" id="statStudyTime">0m 0s</div>
+        </div>
+      </div>
+      <!-- Post-session action buttons -->
+      <div class="results-actions">
+        <button id="restartSession">Study Again</button>
+        <button id="backToStudyOptions">Study Something Else</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Break time modal popup -->
+  <div id="breakModal" class="modal">
+    <div class="modal-content">
+      <!-- Modal header -->
+      <div class="modal-header">
+        <h2>Break Time!</h2>
+      </div>
+      <!-- Modal body with break timer and suggestions -->
+      <div class="modal-body">
+        <p>Time for a short break. Rest your mind for a few minutes.</p>
+        <div class="break-timer">
+          <span id="breakMinutes">5</span>:<span id="breakSeconds">00</span>
+        </div>
+        <div class="break-suggestions">
+          <h4>Suggestions:</h4>
+          <ul>
+            <li>Stand up and stretch</li>
+            <li>Drink some water</li>
+            <li>Look at something 20 feet away for 20 seconds</li>
+            <li>Take a few deep breaths</li>
+          </ul>
+        </div>
+      </div>
+      <!-- Modal footer with action button -->
+      <div class="modal-footer">
+        <button id="skipBreakBtn">Skip Break</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast notification system -->
+  <div id="toast" class="toast">
+    <div class="toast-content">
+      <i id="toast-icon" class="fas fa-info-circle"></i>
+      <span id="toast-message">This is a toast message</span>
+    </div>
+    <div class="toast-progress"></div>
+  </div>
+
+  <!-- JavaScript functionality -->
+  <script src="script/study_mode.js"></script>
+</body>
+</html>

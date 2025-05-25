@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Document head with meta tags and external resources -->
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Revizrlearn</title>
+  <link rel="manifest" href="/manifest.json" />
+  <!-- External stylesheets for boxicons and login page -->
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel="stylesheet">
+  <link rel="stylesheet" href="css/login.css">
+</head>
+
+<body>
+
+  <!-- Main container for the login/register interface -->
+  <div class="container">
+    <!-- Login form section -->
+    <div class="form-box login">
+      <form id="loginForm" method="POST" action="#">
+        <h1>Login</h1>
+
+        <!-- Username input field with icon -->
+        <div class="input-box">
+          <input type="text" placeholder="Username" required id="login-username">
+          <i class='bx bxs-user'></i>
+        </div>
+        <!-- Username validation error message -->
+        <div class="error-message" id="login-username-error">Username must be at least 8 characters</div>
+
+        <!-- Password input field with toggle visibility icon -->
+        <div class="input-box">
+          <input type="password" placeholder="Password" required id="login-password">
+          <i class='bx bxs-hide password-toggle'></i>
+        </div>
+        
+        <!-- Login submit button -->
+        <button type="submit" class="btn">Login</button>
+      </form>
+    </div>
+
+    <!-- Registration form section -->
+    <div class="form-box register">
+      <form id="registerForm" method="POST" action="#">
+        <h1>Registration</h1>
+
+        <!-- Username input field with icon -->
+        <div class="input-box">
+          <input type="text" placeholder="Username" required id="register-username">
+          <i class='bx bxs-user'></i>
+        </div>
+        <!-- Username validation error message -->
+        <div class="error-message" id="register-username-error">Username must be at least 8 characters</div>
+
+        <!-- Password input field with toggle visibility icon -->
+        <div class="input-box">
+          <input type="password" placeholder="Password" required id="register-password">
+          <i class='bx bxs-hide password-toggle'></i>
+        </div>
+        <!-- Password validation error message -->
+        <div class="error-message" id="register-password-error">Password must include uppercase, lowercase, number and special character</div>
+        
+        <!-- Password strength indicator -->
+        <div class="password-strength">
+          <div class="password-strength-bar"></div>
+        </div>
+        <div class="password-strength-text">Password strength: <span>Not entered</span></div>
+
+        <!-- Registration submit button -->
+        <button type="submit" class="btn">Register</button>
+      </form>
+    </div>
+
+    <!-- Toggle panel for switching between login and registration -->
+    <div class="toggle-box">
+      <!-- Left panel - prompts to register -->
+      <div class="toggle-panel toggle-left">
+        <h1>Hello, Welcome!</h1>
+        <p>Don't have an account?</p>
+        <button class="btn register-btn">Register</button>
+      </div>
+      <!-- Right panel - prompts to login -->
+      <div class="toggle-panel toggle-right">
+        <h1>Welcome Back!</h1>
+        <p>Already have an account?</p>
+        <button class="btn login-btn">Login</button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- JavaScript functionality -->
+  <script src="script/login.js"></script>
+</body>
+
+</html>

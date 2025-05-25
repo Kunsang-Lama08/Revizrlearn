@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Basic HTML5 setup and viewport configuration -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Create Flashcards</title>
+  <link rel="manifest" href="/manifest.json" />
+  <!-- CSS stylesheets - dashboard styling, editor-specific styles, and Font Awesome icons -->
+  <link rel="stylesheet" href="css/dashboard.css" />
+  <link rel="stylesheet" href="css/flashcard_editor.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+  <!-- Sidebar navigation panel -->
+  <div class="sidebar" id="sidebar">
+    <!-- Sidebar header with toggle button and app title -->
+    <div class="sidebar-header">
+        <button class="toggle-btn" onclick="toggleSidebar()">
+            <i class="fas fa-bars"></i>
+        </button>
+        <span class="title"><strong>Revizr</strong>learn</span>
+    </div>
+
+    <!-- Navigation menu items -->
+    <a href="dashboard.html" class="nav-item">
+      <i class="fas fa-house"></i>
+      <span>Home</span>
+    </a>
+    <a href="flashcards.html" class="nav-item">
+      <i class="fas fa-layer-group"></i>
+      <span>Flashcards</span>
+    </a>
+    <a href="study_mode.html" class="nav-item">
+      <i class="fas fa-brain"></i>
+      <span>Study Mode</span>
+    </a>
+    <a href="flashcards_editor.html" class="nav-item active">
+      <i class="fas fa-plus-circle"></i>
+      <span>Create Set</span>
+    </a>
+  </div>
+
+  <!-- Main content area -->
+  <div class="main-content">
+    <!-- Page header with title and save button -->
+    <div class="editor-header">
+      <h1>Create New Flashcard Set</h1>
+      <div class="header-actions">
+        <button id="save-set" class="primary-button">
+          <i class="fas fa-save"></i> Save
+        </button>
+      </div>
+    </div>
+
+    <!-- Flashcard set configuration form -->
+    <div class="set-details">
+      <!-- Set title input (required) -->
+      <div class="form-group">
+        <label for="set-title">Title*</label>
+        <input type="text" id="set-title" placeholder="Enter a title for your flashcard set" required>
+      </div>
+      
+      <!-- Set description input (optional) -->
+      <div class="form-group">
+        <label for="set-description">Description (optional)</label>
+        <textarea id="set-description" placeholder="Add a description for your flashcard set"></textarea>
+      </div>
+      
+      <!-- Category selection dropdown -->
+      <div class="form-group">
+        <label for="set-category">Category</label>
+        <select id="set-category">
+        </select>
+      </div>
+    </div>
+
+    <!-- Flashcards management section -->
+    <div class="flashcards-container">
+      <!-- Section header with dynamic card count -->
+      <h2>Flashcards <span id="card-count">(0)</span></h2>
+      
+      <!-- Container for individual flashcard items (populated by JavaScript) -->
+      <div id="flashcards-list">
+      </div>
+      
+      <!-- Add new card button -->
+      <div class="add-card-container">
+        <button id="add-card" class="secondary-button">
+          <i class="fas fa-plus"></i> Add Card
+        </button>
+      </div>
+    </div>
+    
+    <!-- Footer section with advanced options -->
+    <div class="editor-footer">
+      <div class="advanced-options">
+        <!-- Toggle button for advanced options panel -->
+        <button id="toggle-advanced" class="text-button">
+          <i class="fas fa-cog"></i> Advanced Options
+        </button>
+        
+        <!-- Collapsible advanced options panel -->
+        <div id="advanced-panel" class="hidden">
+          <!-- File import functionality -->
+          <div class="form-group">
+            <label for="import-cards">Import Cards</label>
+            <div class="file-upload">
+              <input type="file" id="import-cards" accept=".csv, .txt">
+              <label for="import-cards" class="file-label">
+                <i class="fas fa-file-import"></i> Select File
+              </label>
+            </div>
+            <small>Import cards from CSV or TXT file (Term, Definition format)</small>
+          </div>
+          
+          <!-- Study behavior configuration -->
+          <div class="form-group">
+            <label>Study Options</label>
+            <!-- Shuffle cards option -->
+            <div class="checkbox-group">
+              <input type="checkbox" id="shuffle-cards" checked>
+              <label for="shuffle-cards">Shuffle cards when studying</label>
+            </div>
+            <!-- Auto-flip cards option with timing -->
+            <div class="checkbox-group">
+              <input type="checkbox" id="auto-flip">
+              <label for="auto-flip">Auto-flip cards after</label>
+              <select id="flip-time" disabled>
+                <option value="3">3 seconds</option>
+                <option value="5">5 seconds</option>
+                <option value="10">10 seconds</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Template for individual flashcard items (cloned by JavaScript) -->
+  <template id="flashcard-template">
+    <div class="flashcard-item" data-id="">
+      <!-- Card number indicator -->
+      <div class="card-number"></div>
+      
+      <!-- Card content inputs -->
+      <div class="card-content">
+        <!-- Term input field -->
+        <div class="form-group">
+          <label>Term</label>
+          <input type="text" class="card-term" placeholder="Enter term">
+        </div>
+        <!-- Definition input field -->
+        <div class="form-group">
+          <label>Definition</label>
+          <textarea class="card-definition" placeholder="Enter definition"></textarea>
+        </div>
+      </div>
+      
+      <!-- Card action buttons (move up/down, delete) -->
+      <div class="card-actions">
+        <button class="icon-button move-up" title="Move Up">
+          <i class="fas fa-arrow-up"></i>
+        </button>
+        <button class="icon-button move-down" title="Move Down">
+          <i class="fas fa-arrow-down"></i>
+        </button>
+        <button class="icon-button delete-card" title="Delete Card">
+          <i class="fas fa-trash"></i>
+        </button>
+      </div>
+    </div>
+  </template>
+
+  <!-- Notification popup for user feedback -->
+  <div id="notification" class="notification hidden"></div>
+
+  <!-- Delete confirmation modal -->
+  <div id="delete-confirmation-modal" class="modal hidden">
+    <div class="modal-content">
+      <!-- Modal header -->
+      <div class="modal-header">
+        <h3>Confirm Deletion</h3>
+        <button class="modal-close" id="modal-close">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <!-- Modal body with confirmation message -->
+      <div class="modal-body">
+        <p>Are you sure you want to delete <span id="delete-category-name"></span>?</p>
+      </div>
+      <!-- Modal footer with action buttons -->
+      <div class="modal-footer">
+        <button id="confirm-delete" class="primary-button">
+          <i class="fas fa-trash"></i> Yes, Delete
+        </button>
+        <button id="cancel-delete" class="secondary-button">
+          <i class="fas fa-times"></i> Cancel
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- JavaScript file for editor functionality -->
+  <script src="script/flashcards_editor.js"></script>
+</body>
+</html>

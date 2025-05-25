@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Revizrlearn</title>
+  <link rel="manifest" href="/manifest.json" />
+  <link rel="stylesheet" href="css/index.css" />
+</head>
+<body>
+  <!-- Loading spinner for initial page load -->
+  <div id="loading-spinner" aria-label="Loading content"></div>
+
+  <div class="overlay">
+    <!-- Top navigation header with logo -->
+    <header class="top-left-logo" tabindex="0">
+      Revizr<span class="light">learn</span>
+    </header>
+
+    <!-- Login button positioned in top-right corner -->
+    <a href="login.html" class="login-btn" aria-label="Log In to Revizrlearn">
+      <img src="https://cdn-icons-png.flaticon.com/512/847/847969.png" alt="" class="login-icon" />
+      Log In
+    </a>
+
+    <!-- Main hero section with welcome message and CTA -->
+    <main class="center-content" role="main">
+      <h2>Welcome to</h2>
+      <h1 class="fade-in" id="typing-text"></h1>
+      <p>Where anyone can learn anything</p>
+
+      <button class="cta-btn" onclick="window.location.href='login.html'">Get Started</button>
+    </main>
+
+    <!-- Features showcase section highlighting main app capabilities -->
+    <section class="features" aria-label="Features of Revizrlearn">
+      <!-- Create Flashcards Feature -->
+      <div class="feature-box" tabindex="0" role="button" onclick="window.location.href='login.html'">
+        <img src="https://img.icons8.com/ios-filled/64/ffffff/plus--v1.png" alt="Create Flashcards Icon" />
+        <h3>Create Flashcards</h3>
+        <p>Design your own flashcards tailored to your learning style.</p>
+      </div>
+      
+      <!-- Quiz Mode Feature -->
+      <div class="feature-box" tabindex="0" role="button" onclick="window.location.href='login.html'">
+        <img src="https://img.icons8.com/ios-filled/64/ffffff/quiz.png" alt="Quiz Mode Icon" />
+        <h3>Practice Quiz Mode</h3>
+        <p>Test your knowledge with interactive quizzes.</p>
+      </div>
+      
+      <!-- Progress Tracking Feature -->
+      <div class="feature-box" tabindex="0" role="button" onclick="window.location.href='login.html'">
+        <img src="https://img.icons8.com/ios-filled/64/ffffff/combo-chart--v1.png" alt="Progress Dashboard Icon" />
+        <h3>Progress Dashboard</h3>
+        <p>Track your improvement and stay motivated.</p>
+      </div>
+    </section>
+  </div>
+    
+  <!-- JavaScript for page animations and interactions -->
+  <script src="script/index.js"></script>
+</body>
+</html>
