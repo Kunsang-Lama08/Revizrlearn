@@ -780,3 +780,9 @@ if (typeof window.showToast !== 'function') {
     }, 3000);
   };
 }
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/Revizrlearn/service-worker.js');
+  });
+}
