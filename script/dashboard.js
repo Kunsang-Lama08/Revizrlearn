@@ -1,9 +1,10 @@
-// Dashboard.js 
+// Dashboard.js for Revizrlearn
+
 document.addEventListener('DOMContentLoaded', function() {
   // Initialize variables
   const currentUser = {
     name: "Student",
-    email: "revizrlearn",
+    email: "user@example.com",
   };
   
   // Mock notifications
@@ -165,7 +166,7 @@ function loadFlashcardSets() {
     loadFlashcardSets();
   }
 
-  // Get a relative time string 
+  // Get a relative time string (e.g., "2 days ago", "Yesterday", etc.)
   function getRelativeTimeString(date) {
     const now = new Date();
     const diff = now - date;
@@ -210,69 +211,117 @@ function loadFlashcardSets() {
     badge.style.display = unreadCount > 0 ? 'flex' : 'none';
   }
 
-  // Setup event listeners
-  function setupEventListeners() {
-    // Toggle sidebar
-    window.toggleSidebar = function() {
-      document.getElementById('sidebar').classList.toggle('collapsed');
-    };
+  // Setup event listeners - REPLACE your existing setupEventListeners function with this complete version
+function setupEventListeners() {
+  // Toggle sidebar
+  window.toggleSidebar = function() {
+    document.getElementById('sidebar').classList.toggle('collapsed');
+  };
 
-    // Profile dropdown
-    const profileToggle = document.getElementById('profile-dropdown-toggle');
-    const profileDropdown = document.getElementById('profile-dropdown');
+  // Profile dropdown
+  const profileToggle = document.getElementById('profile-dropdown-toggle');
+  const profileDropdown = document.getElementById('profile-dropdown');
+  
+  profileToggle.addEventListener('click', function(e) {
+    e.stopPropagation();
+    profileDropdown.classList.toggle('show');
+  });
+
+  // Close dropdown when clicking outside
+  document.addEventListener('click', function() {
+    profileDropdown.classList.remove('show');
+  });
+
+  // Notification bell
+  const notificationBell = document.getElementById('notification-bell');
+  const notificationsModal = document.getElementById('notifications-modal');
+  const closeNotifications = document.getElementById('close-notifications');
+  
+  notificationBell.addEventListener('click', function() {
+    loadNotifications();
+    notificationsModal.classList.add('show');
+  });
+  
+  closeNotifications.addEventListener('click', function() {
+    notificationsModal.classList.remove('show');
+  });
+
+  // Logout button - Enhanced
+  document.getElementById('logout-btn').addEventListener('click', function(e) {
+    e.preventDefault();
+    // Show the logout toast notification with a success type
+    showToast('info', 'Logging out...');
     
-    profileToggle.addEventListener('click', function(e) {
-      e.stopPropagation();
-      profileDropdown.classList.toggle('show');
+    // Redirect to index.html after a short delay to allow the toast to be seen
+    setTimeout(() => {
+      window.location.href = 'index.html';
+    }, 2000);
+  });
+  
+  // Add "View All Sets" button handler if the button exists
+  const viewAllSetsBtn = document.getElementById('view-all-sets');
+  if (viewAllSetsBtn) {
+    viewAllSetsBtn.addEventListener('click', function() {
+      window.location.href = 'flashcards.html';
     });
-
-    // Close dropdown when clicking outside
-    document.addEventListener('click', function() {
-      profileDropdown.classList.remove('show');
-    });
-
-    // Notification bell
-    const notificationBell = document.getElementById('notification-bell');
-    const notificationsModal = document.getElementById('notifications-modal');
-    const closeNotifications = document.getElementById('close-notifications');
-    
-    notificationBell.addEventListener('click', function() {
-      loadNotifications();
-      notificationsModal.classList.add('show');
-    });
-    
-    closeNotifications.addEventListener('click', function() {
-      notificationsModal.classList.remove('show');
-    });
-
-    // Logout button - Enhanced
-    document.getElementById('logout-btn').addEventListener('click', function(e) {
-      e.preventDefault();
-      // Show the logout toast notification with a success type
-      showToast('info', 'Logging out...');
-      
-      // Redirect to index.html after a short delay to allow the toast to be seen
-      setTimeout(() => {
-        window.location.href = 'index.html';
-      }, 2000);
-    });
-    
-    // Add "View All Sets" button handler if the button exists
-    const viewAllSetsBtn = document.getElementById('view-all-sets');
-    if (viewAllSetsBtn) {
-      viewAllSetsBtn.addEventListener('click', function() {
-        window.location.href = 'flashcards.html';
-      });
-    }
-
-    // Add "Create Your First Set" button handler for empty state
-    const createFirstSetBtn = document.querySelector('.empty-state .start-btn');
-    if (createFirstSetBtn) {
-      createFirstSetBtn.addEventListener('click', function() {
-        window.location.href = 'flashcards_editor.html';
-      });
-    }
   }
+
+  // Add "Create Your First Set" button handler for empty state
+  const createFirstSetBtn = document.querySelector('.empty-state .start-btn');
+  if (createFirstSetBtn) {
+    createFirstSetBtn.addEventListener('click', function() {
+      window.location.href = 'flashcards_editor.html';
+    });
+  }
+
+  // Help Guide System - NEW CODE ADDED HERE
+  const helpButton = document.getElementById('help-button');
+  const helpModal = document.getElementById('help-modal');
+  const closeHelpModal = document.getElementById('close-help-modal');
+  const closeHelpGuide = document.getElementById('close-help-guide');
+
+  // Check if elements exist before adding event listeners
+  if (helpButton && helpModal) {
+    // Show help modal when help button is clicked
+    helpButton.addEventListener('click', function() {
+      console.log('Help button clicked'); // Debug log
+      helpModal.classList.add('show');
+      // Track that user has seen the help guide
+      localStorage.setItem('hasSeenHelpGuide', 'true');
+    });
+  }
+
+  if (closeHelpModal && helpModal) {
+    // Close help modal with X button
+    closeHelpModal.addEventListener('click', function() {
+      helpModal.classList.remove('show');
+    });
+  }
+
+  if (closeHelpGuide && helpModal) {
+    // Close help modal with "Got it!" button
+    closeHelpGuide.addEventListener('click', function() {
+      helpModal.classList.remove('show');
+      showToast('success', 'Happy learning! 🎉');
+    });
+  }
+
+  if (helpModal) {
+    // Close help modal when clicking outside
+    helpModal.addEventListener('click', function(e) {
+      if (e.target === helpModal) {
+        helpModal.classList.remove('show');
+      }
+    });
+
+    // Close help modal with ESC key
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && helpModal.classList.contains('show')) {
+        helpModal.classList.remove('show');
+      }
+    });
+  }
+}
 
   // Load notifications into modal
   function loadNotifications() {
@@ -779,10 +828,4 @@ if (typeof window.showToast !== 'function') {
       toast.classList.remove('show');
     }, 3000);
   };
-}
-
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/Revizrlearn/service-worker.js');
-  });
 }
