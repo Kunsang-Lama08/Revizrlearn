@@ -4,16 +4,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Home</title>
-  <link rel="manifest" href="manifest.json" />
-  <!-- External CSS and Font Awesome icons -->
   <link rel="stylesheet" href="css/dashboard.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
     
-  <!-- Left Navigation Sidebar -->
   <div class="sidebar" id="sidebar">
-    <!-- Sidebar header with toggle button and app branding -->
     <div class="sidebar-header">
         <button class="toggle-btn" onclick="toggleSidebar()">
             <i class="fas fa-bars"></i>
@@ -21,7 +17,6 @@
         <span class="title"><strong>Revizr</strong>learn</span>
     </div>
 
-    <!-- Navigation menu items -->
     <a href="dashboard.html" class="nav-item active">
       <i class="fas fa-house"></i>
       <span>Home</span>
@@ -40,25 +35,17 @@
     </a>
   </div>
 
-  <!-- Main Content Area -->
   <div class="main-content">
-    <!-- Top Header Section -->
     <div class="header">
-      <!-- Welcome greeting and date display -->
       <div class="greeting">
         <h1>Welcome back, <span id="username">Student</span>!</h1>
         <p class="date" id="current-date">Loading date...</p>
       </div>
-      
-      <!-- User menu with notifications and profile dropdown -->
       <div class="user-menu">
-        <!-- Notification bell with badge -->
         <span class="notification-bell" id="notification-bell">
           <i class="fas fa-bell"></i>
           <span class="badge" id="notification-count">0</span>
         </span>
-        
-        <!-- User profile dropdown -->
         <div class="user-profile" id="profile-dropdown-toggle">
           <span class="username" id="user-email">student@example.com</span>
           <i class="fas fa-chevron-down"></i>
@@ -70,9 +57,7 @@
       </div>
     </div>
 
-    <!-- Main Content Grid Layout -->
     <div class="content-grid">
-      <!-- Recent Flashcard Sets Section -->
       <div class="content-card recent-sets">
         <div class="card-header">
           <h2>Recent Flashcard Sets</h2>
@@ -87,9 +72,8 @@
         </div>
       </div>
 
-      <!-- Notes Management Section -->
+      <!-- Notes Section -->
       <div class="content-card notes-section">
-        <!-- Notes section header with create button -->
         <div class="card-header">
           <h2>My Notes</h2>
           <div class="notes-actions">
@@ -98,18 +82,12 @@
             </button>
           </div>
         </div>
-        
-        <!-- Notes container with sidebar and editor -->
         <div class="notes-container">
-          <!-- Left sidebar for notes list and search -->
           <div class="notes-sidebar">
-            <!-- Search functionality for notes -->
             <div class="notes-search">
               <input type="text" id="notes-search" placeholder="Search notes...">
               <i class="fas fa-search"></i>
             </div>
-            
-            <!-- List of existing notes -->
             <div class="notes-list" id="notes-list">
               <!-- Notes list will be loaded here dynamically -->
               <div class="empty-notes-message">
@@ -118,20 +96,14 @@
               </div>
             </div>
           </div>
-          
-          <!-- Right side notes editor area -->
           <div class="notes-editor-container" id="notes-editor-container">
-            <!-- Default placeholder when no note is selected -->
             <div class="notes-editor-placeholder">
               <i class="fas fa-edit"></i>
               <p>Select a note to edit or create a new one</p>
             </div>
-            
-            <!-- Rich text notes editor (hidden by default) -->
+            <!-- Notes editor will be shown here -->
             <div class="notes-editor" id="notes-editor" style="display: none;">
-              <!-- Formatting toolbar -->
               <div class="notes-toolbar">
-                <!-- Text formatting buttons -->
                 <button class="format-btn" data-format="bold" title="Bold">
                   <i class="fas fa-bold"></i>
                 </button>
@@ -141,18 +113,13 @@
                 <button class="format-btn" data-format="underline" title="Underline">
                   <i class="fas fa-underline"></i>
                 </button>
-                
-                <!-- List formatting buttons -->
                 <button class="format-btn" data-format="insertUnorderedList" title="Bullet List">
                   <i class="fas fa-list-ul"></i>
                 </button>
                 <button class="format-btn" data-format="insertOrderedList" title="Numbered List">
                   <i class="fas fa-list-ol"></i>
                 </button>
-                
                 <div class="toolbar-divider"></div>
-                
-                <!-- Color picker for note background -->
                 <div class="color-picker-container">
                   <button class="color-picker-btn" id="note-color-btn" title="Note Color">
                     <i class="fas fa-palette"></i>
@@ -167,14 +134,8 @@
                   </div>
                 </div>
               </div>
-              
-              <!-- Note title input -->
               <input type="text" id="note-title" placeholder="Note Title" class="note-title">
-              
-              <!-- Rich text content editor -->
               <div id="note-content" class="note-content" contenteditable="true" placeholder="Start typing your note here..."></div>
-              
-              <!-- Note action buttons (save/delete) -->
               <div class="notes-actions-bottom">
                 <button id="save-note-btn" class="action-btn">
                   <i class="fas fa-save"></i> Save
@@ -190,8 +151,6 @@
     </div>
   </div>
 
-  <!-- Modal Dialogs -->
-  
   <!-- Notifications Modal -->
   <div class="modal" id="notifications-modal">
     <div class="modal-content">
@@ -205,7 +164,7 @@
     </div>
   </div>
 
-  <!-- Delete Confirmation Modal -->
+  <!-- Confirm Delete Modal -->
   <div class="modal" id="confirm-delete-modal">
     <div class="modal-content">
       <div class="modal-header">
@@ -222,7 +181,7 @@
     </div>
   </div>
 
-  <!-- Toast Notification System -->
+  <!-- Toast Notification -->
   <div class="toast" id="toast">
     <div class="toast-content">
       <i id="toast-icon" class="fas fa-info-circle"></i>
@@ -231,7 +190,182 @@
     <div class="toast-progress" id="toast-progress"></div>
   </div>
 
-  <!-- JavaScript -->
   <script src="script/dashboard.js"></script>
+  <script src="script/notes.js"></script>
+
+<div class="help-button" id="help-button" title="Need help? Click for a quick guide">
+  <i class="fas fa-question-circle"></i>
+</div>
+
+<div class="modal help-modal" id="help-modal">
+  <div class="modal-content help-modal-content">
+    <div class="modal-header">
+      <h2><i class="fas fa-graduation-cap"></i> Welcome to Revizrlearn!</h2>
+      <button class="close-btn" id="close-help-modal">&times;</button>
+    </div>
+    <div class="modal-body help-modal-body">
+      <!-- Navigation Guide -->
+      <div class="help-section">
+        <h3><i class="fas fa-compass"></i> Navigation Guide</h3>
+        <div class="help-grid">
+          <div class="help-item">
+            <div class="help-icon">
+              <i class="fas fa-house"></i>
+            </div>
+            <div class="help-content">
+              <h4>Home</h4>
+              <p>Your dashboard with recent flashcard sets and notes. This is where you'll see your progress and quick access to your study materials.</p>
+            </div>
+          </div>
+          
+          <div class="help-item">
+            <div class="help-icon">
+              <i class="fas fa-layer-group"></i>
+            </div>
+            <div class="help-content">
+              <h4>Flashcards</h4>
+              <p>View all your flashcard sets. Browse, search, and manage your study collections here.</p>
+            </div>
+          </div>
+          
+          <div class="help-item">
+            <div class="help-icon">
+              <i class="fas fa-brain"></i>
+            </div>
+            <div class="help-content">
+              <h4>Study Mode</h4>
+              <p>Active study session with your flashcards. Practice with different modes like flip cards and spaced repetition.</p>
+            </div>
+          </div>
+          
+          <div class="help-item">
+            <div class="help-icon">
+              <i class="fas fa-plus-circle"></i>
+            </div>
+            <div class="help-content">
+              <h4>Create Set</h4>
+              <p>Create new flashcard sets. Add cards, organize by categories, and customize your study materials.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Features Guide -->
+      <div class="help-section">
+        <h3><i class="fas fa-star"></i> Key Features</h3>
+        <div class="feature-list">
+          <div class="feature-item">
+            <i class="fas fa-sticky-note"></i>
+            <div>
+              <h4>Smart Notes</h4>
+              <p>Create, edit, and organize your study notes with rich text formatting and color coding.</p>
+            </div>
+          </div>
+          
+          <div class="feature-item">
+            <i class="fas fa-chart-line"></i>
+            <div>
+              <h4>Progress Tracking</h4>
+              <p>Monitor your learning progress with visual indicators and study statistics.</p>
+            </div>
+          </div>
+          
+          <div class="feature-item">
+            <i class="fas fa-clock"></i>
+            <div>
+              <h4>Spaced Repetition</h4>
+              <p>Optimize your learning with scientifically-proven spaced repetition algorithms.</p>
+            </div>
+          </div>
+          
+          <div class="feature-item">
+            <i class="fas fa-tags"></i>
+            <div>
+              <h4>Categories</h4>
+              <p>Organize your flashcards by subject: Biology, Math, History, Computer Science, and more.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Start Guide -->
+      <div class="help-section">
+        <h3><i class="fas fa-rocket"></i> Quick Start</h3>
+        <div class="quick-start-steps">
+          <div class="step">
+            <div class="step-number">1</div>
+            <div class="step-content">
+              <h4>Create Your First Flashcard Set</h4>
+              <p>Click "Create Set" in the sidebar to start building your first collection of flashcards.</p>
+            </div>
+          </div>
+          
+          <div class="step">
+            <div class="step-number">2</div>
+            <div class="step-content">
+              <h4>Add Cards and Content</h4>
+              <p>Add questions and answers, choose a category, and customize your flashcards.</p>
+            </div>
+          </div>
+          
+          <div class="step">
+            <div class="step-number">3</div>
+            <div class="step-content">
+              <h4>Start Studying</h4>
+              <p>Use Study Mode to practice with your flashcards and track your progress.</p>
+            </div>
+          </div>
+          
+          <div class="step">
+            <div class="step-number">4</div>
+            <div class="step-content">
+              <h4>Take Notes</h4>
+              <p>Use the Notes section to jot down important information and insights.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tips Section -->
+      <div class="help-section">
+        <h3><i class="fas fa-lightbulb"></i> Pro Tips</h3>
+        <div class="tips-grid">
+          <div class="tip-item">
+            <i class="fas fa-keyboard"></i>
+            <div>
+              <strong>Keyboard Shortcuts:</strong> Use Ctrl+B for bold, Ctrl+I for italic, and Ctrl+U for underline in notes.
+            </div>
+          </div>
+          
+          <div class="tip-item">
+            <i class="fas fa-palette"></i>
+            <div>
+              <strong>Color Coding:</strong> Use different colors for your notes to organize topics and highlight important information.
+            </div>
+          </div>
+          
+          <div class="tip-item">
+            <i class="fas fa-search"></i>
+            <div>
+              <strong>Search:</strong> Use the search function in notes to quickly find specific information.
+            </div>
+          </div>
+          
+          <div class="tip-item">
+            <i class="fas fa-mobile-alt"></i>
+            <div>
+              <strong>Mobile Friendly:</strong> Access your flashcards on any device - the interface adapts to your screen size.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="help-modal-footer">
+      <button class="action-btn" id="close-help-guide">Got it! Let's start learning</button>
+    </div>
+  </div>
+</div>
+
 </body>
 </html>
